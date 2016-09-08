@@ -21,7 +21,8 @@ function stickyNavDirective($window, $timeout, $document){
         top = 0,
         defaultStickyClass = 'ng-sticky-fixed',
         stickyClass = (attrs.stickyNav || defaultStickyClass),
-        ignoreElementSize = (typeof attrs.ignoreElementSize !== 'undefined');
+        ignoreElementSize = (typeof attrs.ignoreElementSize !== 'undefined'),
+        yTrigger = (attrs.setYTrigger !== 'undefined') ? Number(attrs.yTrigger) : 0;
 
     /*
      * On scroll we just check the page offset
@@ -40,10 +41,10 @@ function stickyNavDirective($window, $timeout, $document){
         element.removeClass(stickyClass);
         return;
       }
-
-      if(!element.hasClass(stickyClass) && $window.pageYOffset > (top + (size * (ignoreElementSize ? 0 : 1)))){
+      
+      if(!element.hasClass(stickyClass) && $window.pageYOffset + yTrigger > (top + (size * (ignoreElementSize ? 0 : 1)))){
         element.addClass(stickyClass);
-      } else if(element.hasClass(stickyClass) && $window.pageYOffset <= (top + (size * (ignoreElementSize ? 0 : 1)))){
+      } else if(element.hasClass(stickyClass) && $window.pageYOffset + yTrigger <= (top + (size * (ignoreElementSize ? 0 : 1)))){
         element.removeClass(stickyClass);
       }
     }
